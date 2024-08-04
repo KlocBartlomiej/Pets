@@ -1,4 +1,4 @@
 <x-dashboard>
-    <x-slot:title>Home page</x-slot:title>
+    <x-slot:title>Put Pet</x-slot:title>
     this is a content
 </x-dashboard>
