@@ -10,7 +10,7 @@
     <body>
         @include('components.nav')
         <div id="container">
-            <h1>Welcome to the {{ config('app.name') }} client :D</h1>
+            <h1>Welcome to the {{ config('app.name') }} store :D</h1>
             {{ $slot }}
         </div>
         <div style="clear: both;"></div>
