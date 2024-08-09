@@ -41,3 +41,11 @@ a:visited{
 a:visited:hover{
     color: brown;
 }
+
+table{
+    width: 100%;
+}
+
+table, th, td {
+    border: 2px solid green;
+}

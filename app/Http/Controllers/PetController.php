@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pet;
+use Illuminate\Support\Facades\Http;
+
 use function Laravel\Prompts\form;
 
 class PetController extends Controller
 {
+    public static $baseUrl = 'https://petstore.swagger.io/v2';
 
     //forms:
     public function getPetForm(){
@@ -38,10 +42,28 @@ class PetController extends Controller
 
     //external api calls:
     public function getPet(){//find pet by ID
-        return redirect()->route('home')->with('success', 'Pet was found.');
+        // id
+        // name
+        // category
+        // photoUrls
+        // tags
+        // status
+
+        $response = Http::get(PetController::$baseUrl.'/pet/'.$_POST['string']);
+        if($response->status() != 200) {
+            abort(404);
+        }
+        $json = json_decode(json: $response, associative: true);
+        return redirect()->route('home')
+            ->with([
+                'success' => 'Pet was found.',
+                'data' => [$json],
+            ]);
     }
 
     public function postPet(){//updates a pet in the store with form data
+        $response = Http::post(PetController::$baseUrl.'/pet/'.$_POST['string']);
+        $json = json_decode(json: $response, associative: true);
         return redirect()->route('home')->with('success', 'Pet was updated.');
     }
 
@@ -62,6 +84,15 @@ class PetController extends Controller
     }
 
     public function getPetStatus(){//finds pets by status
-        return redirect()->route('home')->with('success', 'Pets were found.');
+        $response = Http::get(PetController::$baseUrl.'/pet/findByStatus?status='.$_POST['string']);
+        if($response->status() != 200) {
+            abort(404);
+        }
+        $json = json_decode(json: $response, associative: true);
+        return redirect()->route('home')
+            ->with([
+                'success' => 'Pets were found.',
+                'data' => $json,
+            ]);
     }
 }
